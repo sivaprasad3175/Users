@@ -6,7 +6,14 @@ import route from "./routes/userRoute.js";
 
 const app = express()
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://sivaprasad3175.github.io', // Change this to your GitHub Pages URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+};
+
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json())
 dotenv.config()
 const port = process.env.PORT || 5000;
