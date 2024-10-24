@@ -16,10 +16,11 @@ export const create = async (req,res) => {
     }
 }
 
-export const fetch = async (req,res) => {
+export const fetch = async (req, res) => {
     try {
-        return res.json('hello wolrd')
+        const users = await User.find(); // Fetch all users from the database
+        return res.status(200).json(users); // Return the list of users as JSON
     } catch (error) {
-        return res.status(500).json({error:"internal server error"})
+        return res.status(500).json({ error: "internal server error" });
     }
-}
+};
