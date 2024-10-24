@@ -24,3 +24,39 @@ export const fetch = async (req, res) => {
         return res.status(500).json({ error: "internal server error" });
     }
 };
+
+export const update = async (req, res) => {
+    try {
+        const { id } = req.params; // Get user ID from URL parameters
+        const updatedData = req.body; // Get updated data from the request body
+
+        // Find the user by ID and update
+        const updatedUser = await User.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(updatedUser); // Return the updated user
+    } catch (error) {
+        res.status(500).json({ error: "internal server error" });
+    }
+};
+
+
+export const remove = async (req, res) => {
+    try {
+        const { id } = req.params; // Get user ID from URL parameters
+
+        // Find the user by ID and delete
+        const deletedUser = await User.findByIdAndDelete(id);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: "User deleted successfully" }); // Return success message
+    } catch (error) {
+        res.status(500).json({ error: "internal server error" });
+    }
+};
