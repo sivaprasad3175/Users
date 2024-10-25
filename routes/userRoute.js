@@ -1,5 +1,5 @@
 import express from 'express';
-import { fetch, create, login,deleteUser ,updateUser} from "../controller/userController.js";
+import { fetch, create, login,deleteUser ,updateUser,fetchSingleuser} from "../controller/userController.js";
 import { authenticate } from "../controller/userController.js"; // Import the authenticate middleware
 
 const route = express.Router();
@@ -15,6 +15,7 @@ route.get('/fetch',authenticate, fetch);
 
 route.delete('/delete/:id',authenticate, deleteUser);
 route.put('/update/:id',authenticate, updateUser);
+route.post('/fetchSingleuser/:id',authenticate,fetchSingleuser)
 
 
 

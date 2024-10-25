@@ -129,3 +129,20 @@ export const updateUser = async (req, res) => {
         res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
 };
+
+// Fetch all users (protected route)
+export const fetchSingleuser = async (req, res) => {
+    try {
+        const { id } = req.params; // Get user ID from URL parameters
+
+        // Check if user exists
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ error: error.message || 'Internal Server Error' });
+    }
+};
