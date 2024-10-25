@@ -1,5 +1,5 @@
 import express from 'express';
-import { fetch, create, login,deleteUser } from "../controller/userController.js";
+import { fetch, create, login,deleteUser ,updateUser} from "../controller/userController.js";
 import { authenticate } from "../controller/userController.js"; // Import the authenticate middleware
 
 const route = express.Router();
@@ -13,7 +13,9 @@ route.post('/login', login);
 // Fetch users (protected route, requires JWT token)
 route.get('/fetch', authenticate, fetch);
 
-route.delete('/user/:id',authenticate, deleteUser);
+route.delete('/delete/:id',authenticate, deleteUser);
+route.delete('/update/:id',authenticate, updateUser);
+
 
 
 export default route;
