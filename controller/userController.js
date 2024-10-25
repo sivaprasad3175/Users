@@ -82,3 +82,23 @@ export const authenticate = (req, res, next) => {
         res.status(401).json({ message: 'Token expired or invalid' });
     }
 };
+
+
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params; // Get user ID from URL parameters
+
+        // Check if user exists
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Delete user
+        await User.findByIdAndDelete(id);
+
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
