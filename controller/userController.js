@@ -1,9 +1,15 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import User from "../model/userModel.js";
+import dotenv from 'dotenv';
+
+
+dotenv.config()
 
 // Secret key for JWT (store in environment variables in production)
-const JWT_SECRET = process.env.JWT_SECRET; // Replace with a secure key
+const JWT_SECRET = process.env.JWT_SECRET;
+
+
 
 // Create (Register) user
 export const create = async (req, res) => {
@@ -52,9 +58,11 @@ export const login = async (req, res) => {
 
         res.status(200).json({ token, user });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error during login:', error); // Log the error for easier tracing
+        res.status(500).json({ error: `${error.message }${JWT_SECRET}`|| 'Internal Server Error' });
     }
 };
+
 
 // Fetch all users (protected route)
 export const fetch = async (req, res) => {
@@ -113,11 +121,11 @@ export const updateUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Delete user
-        await User.findByIdAndUpdate({ ...req.body });
+        // Update user
+        await User.findByIdAndUpdate(id, { ...req.body });
 
         res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
 };

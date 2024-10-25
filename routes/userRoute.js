@@ -11,10 +11,10 @@ route.post('/register', create);
 route.post('/login', login);
 
 // Fetch users (protected route, requires JWT token)
-route.get('/fetch', authenticate, fetch);
+route.get('/fetch',authenticate, fetch);
 
 route.delete('/delete/:id',authenticate, deleteUser);
-route.delete('/update/:id',authenticate, updateUser);
+route.put('/update/:id',authenticate, updateUser);
 
 
 
