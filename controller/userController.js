@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import User from "../model/userModel.js";
 
 // Secret key for JWT (store in environment variables in production)
-const JWT_SECRET = 'your_jwt_secret'; // Replace with a secure key
+const JWT_SECRET = process.env.JWT_SECRET; // Replace with a secure key
 
 // Create (Register) user
 export const create = async (req, res) => {
