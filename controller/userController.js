@@ -17,7 +17,7 @@ export const create = async (req, res) => {
         const { email, password } = req.body;
 
         // Check if user already exists
-        const userExists = await User.findOne({ email });
+        const userExists = await User.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
         if (userExists) {
             return res.status(400).json({ message: 'User already exists' });
         }
@@ -32,7 +32,7 @@ export const create = async (req, res) => {
 
         res.status(201).json(savedUser);
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
 };
 
