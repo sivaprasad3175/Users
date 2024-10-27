@@ -4,8 +4,11 @@ import bodyParser from "body-parser";
 import dotenv from 'dotenv';
 import route from "./routes/userRoute.js";
 import cors from 'cors';
+import swaggerSpec from './swagger.js';
+import swaggerUI from 'swagger-ui-express'
 
 const app = express()
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 const corsOptions = {
   origin: 'https://sivaprasad3175.github.io', // Change this to your GitHub Pages URL

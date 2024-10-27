@@ -9,9 +9,6 @@ dotenv.config()
 // Secret key for JWT (store in environment variables in production)
 const JWT_SECRET = process.env.JWT_SECRET;
 
-
-
-// Create (Register) user
 export const create = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -30,11 +27,13 @@ export const create = async (req, res) => {
         const newUser = new User({ ...req.body, password: hashedPassword });
         const savedUser = await newUser.save();
 
-        res.status(201).json(savedUser);
+        // Send only success status and user ID
+        res.status(201).json({ success: true, id: savedUser._id });
     } catch (error) {
         res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
 };
+
 
 // Login and create JWT token
 export const login = async (req, res) => {
@@ -120,6 +119,11 @@ export const updateUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+        const userExists = await User.findOne({ email: { $regex: new RegExp(`^${req.body.email}$`, 'i') } });
+        if (userExists) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
 
         // Update user
         await User.findByIdAndUpdate(id, { ...req.body });
